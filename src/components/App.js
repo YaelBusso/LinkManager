@@ -20,8 +20,7 @@ function App() {
               <Route path="/forgot-password" component={ForgotPassword} />
             </Switch>
           </AuthProvider>
-        </Router>
+  </Router>
   )
 }
-
 export default App;

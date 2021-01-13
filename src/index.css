@@ -21,7 +21,7 @@ body{
       var(--third-color) 59%,
       var(--fourth-color)100%
     );
-  }
+}
 .css-text{
     color: #384364;
     opacity: 0.78;
