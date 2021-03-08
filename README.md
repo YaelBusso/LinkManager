@@ -1,2 +1,2 @@
-# LinkManager
+# Link Manager
 MERN Stack App
