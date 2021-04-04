@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { auth } from "../firebase";
+import axios from "axios";
 
 const AuthContext = React.createContext();
 
@@ -36,13 +37,37 @@ export function AuthProvider({ children }) {
   }
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        user
+          .getIdToken(true)
+          .then(function (idToken) {
+            console.log("user is: ", user);
+            console.log('id token is: ', idToken);
+            //call here...
+            axios({
+              method: "post",
+              url: "/api/users/check",
+              data: {
+                user: user,
+                idToken: idToken,
+              },
+            })
+              .then((res) => {})
+              .catch((error) => {
+                console.log(error);
+              });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
       setCurrentUser(user);
       setLoading(false);
-    })
+    });
 
-    return unsubscribe
-  }, [])
+    return unsubscribe;
+  }, []);
 
   const value = {
     currentUser,
@@ -51,12 +76,12 @@ export function AuthProvider({ children }) {
     logout,
     resetPassword,
     updateEmail,
-    updatePassword
-  }
+    updatePassword,
+  };
 
   return (
     <AuthContext.Provider value={value}>
       {!loading && children}
     </AuthContext.Provider>
-  )
+  );
 }

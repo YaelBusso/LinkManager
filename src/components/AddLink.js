@@ -3,10 +3,8 @@ import Parser from 'html-react-parser';
 import {useDispatch, useSelector} from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Button, Modal, Form, OverlayTrigger, Tooltip} from 'react-bootstrap';
-//import '../App.css';
 import {createLink, updateLink} from '../actions/links';
 import  UTM from './UTM';
-import shortid from 'shortid';
 
 export default function AddLink({currentId, setCurrentId}) {
     const dispatch=useDispatch();
@@ -22,15 +20,7 @@ export default function AddLink({currentId, setCurrentId}) {
                    </svg>`
     };
     const [show, setShow] = useState(false);
-    const [urlData, setUrlDate] = useState({
-       full: '',
-       short: shortid.generate(),
-       clicks:0,
-       date: Date.now(),
-       title: '',
-       tags: '',
-       star: false 
-    });
+    const [urlData, setUrlDate] = useState({});
 
     useEffect(() => {
         if(link) {
@@ -52,13 +42,13 @@ export default function AddLink({currentId, setCurrentId}) {
     const clear=()=>{
         setCurrentId(null);
         setUrlDate({
-        full: '',
-        short: shortid.generate(),
-        clicks:0,
-        date: Date.now(),
-        title: '',
-        tags: '',
-        star: false 
+        // full: '',
+        // short: 'default',
+        // clicks:0,
+        // date: Date.now(),
+        // title: '',
+        // tags: '',
+        // star: false 
      });  
     };
 
@@ -80,6 +70,7 @@ export default function AddLink({currentId, setCurrentId}) {
             dispatch(updateLink(currentId, urlData));
         } else{
             dispatch(createLink(urlData));
+            // dispatch(shortenLink(urlData));            
         }
         clear();
     }
@@ -179,7 +170,7 @@ export default function AddLink({currentId, setCurrentId}) {
                 <Button variant="outline-dark"
                         type="submit">
                         {currentId? `Save`: 'Create Shorten Link'}    
-                </Button>                              
+                </Button>                 
             </Modal.Footer>
         </Form>
         </Modal>

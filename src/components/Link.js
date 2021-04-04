@@ -7,9 +7,11 @@ import QR from './features/QR';
 import Share from './features/Share';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
-import {deleteLink, starLink, shortenLink} from '../actions/links';
+import {deleteLink, starLink} from '../actions/links';
 
 export default function Link({link, setCurrentId}) {
+  const dispatch = useDispatch();
+  const shortLink=`http://localhost:5005/${link.short}`;
     const icons = {
         deleteIcon: `<svg width="0.8em" height="0.8em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
@@ -22,20 +24,14 @@ export default function Link({link, setCurrentId}) {
       <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
       </svg>`
     };
-
-
-    const dispatch = useDispatch();
-    /*const shortenLink=()=>{
-      axios.get(`https://localhost:5000/links/${link.short}`)
-    }*/
     return (
         <>
         <tr>
         <td><i className="css-hashtag">{link.tags.map((tag) =>tag?`#${tag} `:' ')}</i><br/>
             <b>{link.title}</b><br/>
-            <a onClick={()=>{dispatch(shortenLink(link.short))}}
-               href={link.short}>
-                 {link.short}
+            <a
+               href={shortLink}>
+                 {shortLink}
             </a><br/>
             <p className="css-small-txt">{link.full}</p></td>
         <td className="css-small-txt"><br/>{link.clicks} clicks</td>
@@ -56,9 +52,9 @@ export default function Link({link, setCurrentId}) {
                 {Parser(icons.starIcon)}
               </button>        
           </OverlayTrigger>  
-        <Copy url={link.short}/>
-        <QR url={link.short}/>
-        <Share url={link.short} title={link.title}/>
+        <Copy url={shortLink}/>
+        <QR url={shortLink}/>
+        <Share url={shortLink} title={link.title}/>
           <OverlayTrigger placement="top"
                           overlay={
                             <Tooltip>

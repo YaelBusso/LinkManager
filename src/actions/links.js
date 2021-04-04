@@ -47,11 +47,11 @@ export const deleteLink = (id) => async (dispatch)=>{
     }
 }
 
-export const shortenLink = (short)=> async (dispatch)=>{
-    try{
-        const {data}=await api.shortenLink(short); 
-        dispatch({type: UPDATE, payload: data} );
-    } catch(error) {
-        console.log(error.message);
-    }
-}
+// export const shortenLink = (short)=> async (dispatch)=>{
+//     try{
+//         const {data}=await api.shortenLink(short); 
+//         dispatch({type: UPDATE, payload: data} );
+//     } catch(error) {
+//         console.log(error.message);
+//     }
+// }
